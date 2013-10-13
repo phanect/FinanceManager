@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+class MoneyFlowItem(models.Model):
+	amount	= models.BigIntegerField()
+	date	= models.DateField()
+	category = models.IntegerField(max_length=1)
