@@ -1,0 +1,3 @@
+def register():
+	# FIXME
+	pass
