@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}New Form - Form Editor{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+	// declare var $;
+
+	function clearForm() {
+		$("input").each(function(index, element) {
+			if ($(this).parent().is("#register")) {
+				$(element).val("");
+			}
+		});
+	}
+
+	$(function() {
+		// #date text box setup
+		$("#date").datepicker({
+			dateFormat : "yy/mm/dd",
+		});
+		$("#date").val($.datepicker.formatDate('yy/mm/dd', new Date())); // Set today as default date
+
+		// Data Submission
+		$("#submit").click(function() {
+			alert($("#submit").serialize());
+			$.post("/book/register", $("#submit").serialize(), function(data) { // Success
+				clearForm();
+
+				$("#message").text("Successfully Sent!");
+
+				$("#message").fadeIn(3000).delay(1000).fadeOut("slow", function() {
+					// When animation complete
+					$("#message").text("");
+				});
+
+			}).fail(function() {
+				$("#message").text("Failure!");
+
+				$("#message").fadeIn(3000).delay(1000).fadeOut("slow", function() {
+					// When animation complete
+					$("#message").text("");
+				});
+			});
+
+			$("#amount").validate({
+				rules : {
+					field : {
+						required : true,
+						number : true
+					}
+				}
+			});
+
+			$("#category").validate({
+				rules : {
+					field : {
+						required : true,
+						number : true
+					}
+				}
+			});
+		});
+	});
+</script>
+{% endblock %}
+
+{% block body %}
+<h1 id="title">Finance Manager</h1>
+
+<span id="message"></span>
+
+<form id="register" method="post" accept-charset="UTF-8">
+	{% csrf_token %}
+	<label for="amount">Amount:</label>
+	<input id="amount" type="text"><br>
+
+	<label for="date">Date:</label>
+	<input id="date" type="text"><br>
+
+	<label for="category">Category:</label>
+	<input id="category" type="text"><br>
+
+	<button id="submit" class="btn">Submit</button>
+</form>
+
+{% endblock %}
