@@ -13,8 +13,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
 	"default": {
-		"ENGINE": "django_mongodb_engine",
-		"NAME": "finance",  # Or path to database file if using sqlite3.
+		"ENGINE": "django.db.backends.sqlite3",
+		"NAME": "/tmp/finance.db",  # Or path to database file if using sqlite3.
 		# The following settings are not used with sqlite3:
 		"USER": "",
 		"PASSWORD": "",
