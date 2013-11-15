@@ -1,3 +1,3 @@
-def register():
+def register(request):
 	# FIXME
 	pass
