@@ -4,9 +4,12 @@ from django.test.client import Client
 
 class UITest(TestCase):
 	"""Views tests & Selenium functional tests"""
+
+	def setUp(self):
+		self.client = Client()
+
 	def test_register_view(self):
 		"""register view test"""
-		client = Client()
 
 		# FIXME change category specification when specification of category is decided
 		datasets = [
@@ -18,5 +21,5 @@ class UITest(TestCase):
 		]
 
 		for dataset in datasets:
-			response = client.post("/register/", data=dataset["data"] )
+			response = self.client.post("/register/", data=dataset["data"] )
 			self.assertEqual(response.status_code, dataset["status"])
