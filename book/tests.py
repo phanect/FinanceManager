@@ -1,16 +1,22 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
+from django.test.client import Client
 
 
-class SimpleTest(TestCase):
-	def test_basic_addition(self):
-		"""
-		Tests that 1 + 1 always equals 2.
-		"""
-		self.assertEqual(1 + 1, 2)
+class UITest(TestCase):
+	"""Views tests & Selenium functional tests"""
+	def test_register_view(self):
+		"""register view test"""
+		client = Client()
+
+		# FIXME change category specification when specification of category is decided
+		datasets = [
+				{"data": {"amount": "2000", "date": "2013/04/02", "category": "0"}, "status": 200},
+				{"data": {"amount": "3,500", "date": "2013/04/02", "category": "0"}, "status": 200},
+				{"data": {"amount": "42,00", "date": "2013/04/02", "category": "0"}, "status": 200},
+				# Wrong Date Format; Only YYYY/MM/DD is accepted
+				{"data": {"amount": "7200", "date": "2013-04-02", "category": "0"}, "status": 400}
+		]
+
+		for dataset in datasets:
+			response = client.post("/register/", data=dataset["data"] )
+			self.assertEqual(response.status_code, dataset["status"])
