@@ -19,3 +19,8 @@ class RecentRegistry(models.Model):
 		# Delete data from 3 days before
 		RecentRegistry.objects.filter(register_datetime__lte=datetime.now() - timedelta(days=3)).delete()
 		super(RecentRegistry, self).save(*args, **kwargs)
+
+class Category(models.Model):
+	id = models.AutoField()
+	group = models.TextField()
+	name = models.TextField()
