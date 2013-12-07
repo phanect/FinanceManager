@@ -25,7 +25,12 @@
 		$("form#register").submit(function(evt) {
 			evt.preventDefault();
 
-			$.post("/book/register", {"amount": $("input#amount").val(), "date": $("input#date").val(), "category": $("input#category").val()},
+			var serialized = $(this).serializeArray();
+
+			// TODO Remove debug output
+			console.log(serialized);
+
+			$.post("book/register/", serialized,
 			function(data) { // Success
 				clearForm();
 
@@ -72,16 +77,17 @@
 
 <span id="message"></span>
 
-<form id="register" method="post" accept-charset="UTF-8">
+<form id="register">
 	{% csrf_token %}
+
 	<label for="amount">Amount:</label>
-	<input id="amount" type="text"><br>
+	<input id="amount" name="amount" type="text"><br>
 
 	<label for="date">Date:</label>
-	<input id="date" type="text"><br>
+	<input id="date" name="date" type="text"><br>
 
 	<label for="category">Category:</label>
-	<input id="category" type="text"><br>
+	<input id="category" name="category" type="text"><br>
 
 	<input id="submit" class="btn" type="submit">
 </form>
